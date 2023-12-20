@@ -1,8 +1,12 @@
-# Start from a scratch (empty) image
+FROM golang:1.21 as build
+
+WORKDIR /
+
+COPY . .
+
+RUN go build -o ./challenge ./challenge.go
+
 FROM scratch
+COPY --from=build ./challenge ./challenge
 
-# Copy the Go binary
-COPY challenge /
-
-# Run the binary
-CMD ["/challenge"]
+CMD ["./challenge"]
